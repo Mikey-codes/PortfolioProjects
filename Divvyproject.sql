@@ -30,9 +30,20 @@ CREATE TABLE divvy202105 (
     member_casual VARCHAR
 )
 
-ect..
+ect...
 
-#COMBINING Tables for Yearly Data
+#REMOVING NULLS
+DELETE FROM divvy202104
+WHERE start_station_name IS NULL
+OR end_station_name IS NULL
+
+DELETE FROM divvy202105
+WHERE start_station_name IS NULL 
+OR end_station_name) IS NULL
+
+ect...
+
+#COMBINING TABLES for Yearly Data
 SELECT * 
     INTO d2021
 FROM 
