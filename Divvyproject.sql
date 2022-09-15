@@ -83,3 +83,19 @@ FROM
     SELECT *
     FROM divvy202208
 ) AS cd2022
+
+# Creating new columns by separating Date and TIME
+ALTER TABLE d2021 
+ADD COLUMN dat date,
+ADD COLUMN tim time,
+ADD e_dat date,
+ADD e_tim time
+
+UPDATE d2021
+SET dat = started_at::date 
+UPDATE d2021
+SET tim = started_at::time
+UPDATE d2021
+SET e_dat = ended_at::date
+UPDATE d2021
+SET e_tim = ended_at::time
