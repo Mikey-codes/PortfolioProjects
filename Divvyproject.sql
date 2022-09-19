@@ -13,7 +13,7 @@ CREATE TABLE divvy202104 (
     end_lat NUMERIC,
     end_lng NUMERIC,
     member_casual VARCHAR
-)
+);
 CREATE TABLE divvy202105 (
     ride_id VARCHAR UNIQUE,
     rideable_type VARCHAR,
@@ -28,18 +28,18 @@ CREATE TABLE divvy202105 (
     end_lat NUMERIC,
     end_lng NUMERIC,
     member_casual VARCHAR
-)
+);
 
 ect...
 
 #REMOVING NULLS
 DELETE FROM divvy202104
 WHERE start_station_name IS NULL
-OR end_station_name IS NULL
+OR end_station_name IS NULL;
 
 DELETE FROM divvy202105
 WHERE start_station_name IS NULL 
-OR end_station_name) IS NULL
+OR end_station_name) IS NULL;
 
 ect...
 
@@ -62,7 +62,7 @@ FROM
     UNION
     SELECT *
     FROM divvy202108
-) AS cd2021
+) AS cd2021;
 
 SELECT * 
     INTO d2022
@@ -82,20 +82,29 @@ FROM
     UNION
     SELECT *
     FROM divvy202208
-) AS cd2022
+) AS cd2022;
 
 # Creating new columns by separating Date and TIME
 ALTER TABLE d2021 
 ADD COLUMN dat date,
 ADD COLUMN tim time,
-ADD e_dat date,
-ADD e_tim time
+ADD COLUMN e_dat date,
+ADD COLUMN e_tim time;
 
 UPDATE d2021
-SET dat = started_at::date 
+SET dat = started_at::date; 
 UPDATE d2021
-SET tim = started_at::time
+SET tim = started_at::time;
 UPDATE d2021
-SET e_dat = ended_at::date
+SET e_dat = ended_at::date;
 UPDATE d2021
-SET e_tim = ended_at::time
+SET e_tim = ended_at::time;
+
+UPDATE d2022
+SET dat = started_at::date; 
+UPDATE d2022
+SET tim = started_at::time;
+UPDATE d2022
+SET e_dat = ended_at::date;
+UPDATE d2022
+SET e_tim = ended_at::time;
