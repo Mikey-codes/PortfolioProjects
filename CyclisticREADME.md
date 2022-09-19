@@ -3,8 +3,8 @@ INTRODUCTION Scenario: Cyclistic, a Chicago bike-share company that features ove
 analyst. My manager is Lily Moreno, the Director of Marketing, and she has set a clear goal: Design marketing strategies aimed at converting casual 
 riders into annual members. 
 
-Detailed documentation of code is available at divvyproject.sql
-Data cleaning, validation and exploration was done using PGAdmin - postgresSQL
+Detailed documentation of code is available at divvyproject.sql.
+Data cleaning, validation and exploration was done using PGAdmin - postgresSQL.
 Data visualization was done using Tableau Public - https://public.tableau.com/app/profile/michael.neumann
 
 To answer key business questions, I followed the six steps of Data Analysis: Ask, Prepare, Process, Analyze, Share and Act.
@@ -21,4 +21,6 @@ The business task: finding the differences in two types of Cyclistic users in or
 'casual users' in order to turn them into 'membership' holders.
 
 Once we have a better understanding of our users, we will be able to assist our key stakeholders Lily Moreno and the Executive Team. 
+
+PREPARE
 
