@@ -100,6 +100,12 @@ SET e_dat = ended_at::date;
 UPDATE d2021
 SET e_tim = ended_at::time;
 
+ALTER TABLE d2022 
+ADD COLUMN dat date,
+ADD COLUMN tim time,
+ADD COLUMN e_dat date,
+ADD COLUMN e_tim time;
+
 UPDATE d2022
 SET dat = started_at::date; 
 UPDATE d2022
@@ -108,3 +114,21 @@ UPDATE d2022
 SET e_dat = ended_at::date;
 UPDATE d2022
 SET e_tim = ended_at::time;
+
+ALTER TABLE d2021
+ADD COLUMN dow numeric
+
+UPDATE d2021 
+SET dow = EXTRACT(DOW FROM dat)
+
+ALTER TABLE d2022
+ADD COLUMN dow numeric
+
+UPDATE d2022
+SET dow = EXTRACT(DOW FROM dat)
+
+ALTER TABLE d2021
+ADD COLUMN start_month numeric
+
+ALTER TABLE d2022
+ADD COLUMN start_month numeric
