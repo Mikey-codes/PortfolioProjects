@@ -1,0 +1,183 @@
+-- USE book_shop
+-- CREATE TABLE friends (name VARCHAR(10));
+-- INSERT INTO friends (name) VALUES ('Tom'), ('Juan Pablo'), ('James')
+-- SELECT * FROM friends
+-- CHAR has fixed length
+-- CREATE TABLE states (abbr CHAR(2))
+-- INSERT INTO states (abbr) VALUES ('CA'), ('IL'), ('NY')
+-- CHAR good for state abbreviations, zip codes, yes/no flags(fixed length) otherwise VARCHAR
+-- DESC states
+-- INSERT INTO states (abbr) VALUES ('X')
+-- INSERT INTO states (abbr) VALUES ('ABR') - ERROR
+-- SELECT * FROM states
+-- SELECT CHAR_LENGTH(abbr) FROM states
+-- INSERT INTO friends ('Diego montoae') - ERROR
+-- CREATE TABLE parent (children TINYINT) (smallint, mediumint, bigint)
+-- INSERT INTO parent (children) VALUES (2), (1), (7), (0)
+-- INSERT INTO parent (children) VALUES (128)  - ERROR
+-- keep it positive? INT UNSIGNED
+-- CREATE TABLE products (price DECIMAL(6,2))  
+-- INSERT INTO products (price) VALUES (4.50), (9.99)
+-- INSERT INTO products (price) VALUES (9999.99)
+-- SELECT * FROM products
+-- CREATE TABLE numbers (x FLOAT, y DOUBLE)
+-- INSERT INTO numbers (x, y) VALUES (1.123, 1.123)
+-- INSERT INTO numbers (x, y) VALUES (2.123456789, 2.123456789)
+-- SELECT * FROM numbers
+-- CREATE TABLE people (
+-- 	name VARCHAR(100),
+--      birthdate DATE,
+-- 		birthtime TIME,
+--      birthdt DATETIME
+-- );
+-- INSERT INTO people (name, birthdate, birthtime, birthdt) 
+-- VALUES ( 'Elton', '2000-12-25', '11:00:00', '2000-12-25 11:00:00');
+-- SELECT * FROM people
+-- INSERT INTO people (name, birthdate, birthtime, birthdt)
+-- VALUES ('Juan', '2020-08-15', '23:59:00', '2020-08-15 23:59:00'), ('Lulu', '1985-04-11', '9:45:10', '1985-04-11 9:45:10');
+-- SELECT * FROM people
+-- INSERT INTO people (name, birthdate, birthtime, birthdt)
+-- VALUES ('Steve', CURDATE(), CURTIME(), NOW())
+-- SELECT * FROM people
+-- SELECT birthdate, DAY(birthdate) FROM people
+-- SELECT birthdate, DAYOFWEEK(birthdate) FROM people
+-- SELECT birthdate, DAYOFYEAR(birthdate) FROM people
+-- SELECT birthdate, MONTHNAME(birthdate) FROM people
+-- SELECT name, birthtime, HOUR(birthtime) FROM people
+-- SELECT name, birthtime, MINUTE(birthtime), SECOND(birthtime) FROM people
+-- SELECT birthdt, DATE(birthdt), TIME(birthdt) FROM people
+-- FORMATTING DATES
+-- SELECT MONTHNAME(birthdate), DAY(birthdate), YEAR(birthdate) FROM people;
+-- SELECT CONCAT(MONTHNAME(birthdate), ' ', DAY(birthdate), ', ', YEAR(birthdate)) FROM people;
+-- Better Way - Date Format
+-- SELECT birthdate, DATE_FORMAT(birthdate, '%a %b %D') FROM people;
+-- SELECT birthdt, DATE_FORMAT(birthdt, '%r') FROM people
+-- SELECT birthdate FROM people
+-- SELECT birthdate, DATEDIFF(CURDATE(), birthdate) FROM people
+-- SELECT DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+-- SELECT birthdate, DATE_ADD(birthdate, INTERVAL 18 YEAR) FROM people
+-- **********
+-- SUBTIME(), ADDTIME(), TIMEDIFF()
+-- SELECT TIMEDIFF(CURTIME(), '06:25:00')
+-- 
+-- SELECT name, birthdate, YEAR(birthdate + INTERVAL 21 YEAR) AS legal_age FROM people
+-- CREATE TABLE captions (
+-- 	text VARCHAR(100),
+--     created_at TIMESTAMP default CURRENT_TIMESTAMP
+--     )
+-- INSERT INTO captions (text) VALUES ('Sup babay')
+-- SELECT * FROM captions
+-- CREATE TABLE captions2 (
+-- 	text VARCHAR(100),
+--     created_at TIMESTAMP/DATETIME default CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP/DATETIME ON UPDATE CURRENT_TIMESTAMP
+--     );
+-- INSERT INTO captions2 (text) VALUES ('I love life!')
+-- SELECT * FROM captions2
+-- UPDATE captions2 SET text='I Love Life!!!!!' 
+-- SELECT * FROM captions2
+-- Excercise
+-- CHAR takes up less space/limited space (fixed in size)
+-- VARCHAR, DECIMAL (7,2), SMALLINT
+-- TIMESTAMP takes up less memory, smaller range of dates - very similar otherwise
+-- SELECT CURTIME()
+-- SELECT CURDATE()
+-- SELECT DAYOFWEEK(CURDATE()) ~ SELECT DAYNAME(CURDAY())
+-- SELECT DATE_FORMAT(CURDATE(), '%W') 
+-- SELECT DATE_FORMAT(CURDATE(), '%m/%d/%Y')
+-- SELECT DATE_FORMAT(NOW(), '%M %D at %l:%i')
+-- CREATE TABLE tweet (
+-- 	text VARCHAR(180),
+--     user VARCHAR(25),
+--     created_at TIMESTAMP default CURRENT_TIMESTAMP
+-- )
+-- Logical Operators
+-- SELECT * FROM books WHERE author_lname != 'Gaiman' - NOT !=
+-- SELECT * FROM books WHERE title NOT LIKE '% %' - NOT LIKE 
+-- SELECT * FROM books WHERE author_fname LIKE '%da%' 
+-- SELECT * FROM books WHERE author_fname NOT LIKE '%da%' 
+-- SELECT * FROM books WHERE title NOT LIKE '%e%'
+-- SELECT * FROM books WHERE released_year > 2000;
+-- SELECT * FROM books WHERE stock_quantity < 50;
+-- SELECT * FROM books WHERE released_year < 2000;
+-- SELECT * FROM books WHERE released_year >= 2010;
+-- SELECT * FROM books WHERE released_year <= 2010;
+-- SELECT * FROM books WHERE author_lname = 'eggers' AND released_year >= 2010
+-- SELECT * FROM books 
+-- WHERE author_lname = 'eggers' 
+-- AND released_year >= 2010 
+-- AND title LIKE '%novel%'
+-- SELECT title FROM books WHERE CHAR_LENGTH(title) > 30
+-- SELECT title, pages FROM books WHERE CHAR_LENGTH(title) > 30 AND pages > 500
+-- SELECT * FROM books WHERE author_lname = 'eggers' OR released_year >= 2010
+-- SELECT title, pages FROM books
+-- WHERE pages < 200 OR title LIKE '%stories%'
+-- SELECT * FROM books WHERE released_year >= 2004 AND released_year <= 2015
+-- SELECT * FROM books WHERE released_year BETWEEN 2004 AND 2015
+-- SELECT * FROM books WHERE  pages BETWEEN 200 AND 300
+-- SELECT * FROM books WHERE  pages NOT BETWEEN 200 AND 300
+-- SELECT * FROM people WHERE birthdate <'2005-01-01';
+-- SELECT * FROM people WHERE YEAR(birthdate) < 2005
+-- SELECT * FROM people WHERE birthtime > '12:00:00'
+-- SELECT * FROM people WHERE HOUR(birthtime) > '12'
+-- SELECT CAST('09:00:00' AS TIME) 
+-- SELECT * FROM people WHERE birthtime BETWEEN '12:00:00' AND '16:00:00'
+-- SELECT * FROM people WHERE birthtime BETWEEN CAST('12:00:00' AS TIME) AND CAST('16:00:00' AS TIME)
+-- SELECT * FROM books WHERE author_lname = 'Carver' OR author_lname = 'Lahiri' OR author_lname = 'Smith'
+-- SELECT * FROM books WHERE author_lname IN ('Carver', 'Lahiri', 'Smith')
+-- SELECT * FROM books WHERE author_lname NOT IN ('Carver', 'Lahiri', 'Smith')
+-- SELECT * FROM books WHERE released_year >= 2000 AND released_year NOT IN (2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016, 2018)
+-- SELECT * FROM books WHERE released_year % 2 = 1
+-- SELECT * FROM books WHERE released_year % 2 != 1
+-- SELECT title, released_year,
+-- 	CASE
+-- 		WHEN released_year >= 2000 THEN 'Modern Lit'
+--         ELSE '20th Century lit'
+-- 	END AS genre
+-- FROM books
+-- ORDER BY released_year
+-- SELECT title, stock_quantity,
+-- 	CASE
+-- 		WHEN stock_quantity <= 40 THEN '*'
+--         WHEN stock_quantity BETWEEN 41 AND 80 THEN '**'
+--         WHEN stock_quantity BETWEEN 81 AND 120 THEN '***'
+--         ELSE '****'
+-- 	END AS stock
+-- FROM books
+-- ORDER BY stock_quantity
+-- SELECT title, stock_quantity,
+-- 	CASE
+-- 		WHEN stock_quantity <= 40 THEN '*'
+--      WHEN stock_quantity <= 80 THEN '**'
+--      WHEN stock_quantity <= 120 THEN '***'
+--      ELSE '****'
+-- 	END AS stock
+-- FROM books
+-- ORDER BY stock_quantity
+-- SELECT * FROM books WHERE author_lname IS NULL / IS NOT NULL 
+-- EXERCISE
+-- 0, 1, 1
+-- SELECT * FROM books WHERE released_year < 1980
+-- SELECT * FROM books WHERE author_lname IN ('Eggers', 'Chabon')
+-- SELECT * FROM books WHERE author_lname = 'Lahiri' AND released_year >=2000
+-- SELECT * FROM books WHERE pages BETWEEN 100 AND 200
+-- SELECT * FROM books WHERE author_lname LIKE 'S%' OR author_lname LIKE 'C%'
+-- SELECT title, author_lname,
+-- 	CASE
+-- 		WHEN title LIKE '%stories%' THEN 'Short Stories'
+--         WHEN title = 'Just Kids' OR title = 'A Heartbreaking Work of Staggering Genius' THEN 'Memoir'
+--         ELSE 'Novel'
+-- 	END AS TYPE
+-- FROM books
+-- SELECT author_fname, author_lname, 
+-- 	CASE
+-- 		WHEN COUNT(*) = 1 THEN '1 Book'
+--         ELSE CONCAT(COUNT(*), ' Books')
+-- 	END AS Count
+-- FROM books
+-- GROUP BY author_fname, author_lname
+
+
+
+
+
