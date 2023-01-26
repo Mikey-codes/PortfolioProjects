@@ -1,0 +1,211 @@
+-- USE book_shop
+-- SELECT * FROM reviews
+-- SELECT title, released_year, genre, rating, first_name, last_name FROM reviews
+-- JOIN series ON series.id = reviews.series_id
+-- JOIN reviewers ON reviewers.id = reviews.reviewer_id
+-- CREATE VIEW full_reviews AS
+-- 	SELECT title, released_year, genre, rating, first_name, last_name FROM reviews
+-- 	JOIN series ON series.id = reviews.series_id
+-- 	JOIN reviewers ON reviewers.id = reviews.reviewer_id
+-- SHOW tables 
+-- SELECT * FROM full_reviews WHERE genre = 'Animation'
+-- SELECT genre, AVG(rating) FROM full_reviews GROUP BY genre;
+-- SELECT * FROM full_reviews
+-- ** Rules to views in docs, most can't be updated/deleted ect.
+-- CREATE VIEW ordered_series AS
+-- SELECT * FROM series ORDER BY released_year
+-- SELECT * FROM ordered_series
+-- INSERT INTO ordered_series (title, released_year, genre)
+-- VALUES ('The Great', 2020, 'Comedy'); 
+-- ^^ updateable view goes into series too
+-- SELECT * FROM ordered_series
+-- DELETE FROM ordered_series WHERE title = 'The Great';
+-- SELECT * FROM ordered_series
+-- Can't create duplicate views just like tables
+-- CREATE OR REPLACE VIEW ordered_series AS //OR// ALTER VIEW ordered_series AS
+-- SELECT * FROM series ORDER BY released_year DESC;
+-- SELECT * FROM ordered_series
+-- DROP VIEW ordered_series
+-- CREATE OR REPLACE VIEW full_reviews AS
+-- 	SELECT title, released_year, genre, rating, first_name, last_name FROM reviews
+-- 	JOIN series ON series.id = reviews.series_id
+-- 	JOIN reviewers ON reviewers.id = reviews.reviewer_id
+-- SELECT 
+-- 	title, 
+-- 	AVG(rating) 
+-- FROM full_reviews 
+-- GROUP BY title HAVING COUNT(rating) > 1;
+-- SELECT title, AVG(rating) FROM full_reviews GROUP BY title WITH ROLLUP
+-- SELECT title, COUNT(rating) FROM full_reviews GROUP BY title WITH ROLLUP
+-- SELECT released_year, AVG(rating)
+-- FROM full_reviews
+-- GROUP BY released_year
+-- SELECT released_year, AVG(rating)
+-- FROM full_reviews
+-- GROUP BY released_year WITH ROLLUP
+-- SELECT released_year, genre, AVG(rating)
+-- FROM full_reviews
+-- GROUP BY released_year, genre
+-- SELECT released_year, genre, AVG(rating)
+-- FROM full_reviews
+-- GROUP BY released_year, genre WITH ROLLUP
+-- Showing default modes
+-- SELECT @@GLOBAL.sql_mode;
+-- SELECT @@SESSION.sql_mode;
+-- How we change modes
+-- SET SESSION sql_mode = 'modes'
+-- WINDOW FUNCTIONS
+-- CREATE TABLE employees (
+--     emp_no INT PRIMARY KEY AUTO_INCREMENT,
+--     department VARCHAR(20),
+--     salary INT
+-- );
+-- INSERT INTO employees (department, salary) VALUES
+-- ('engineering', 80000),
+-- ('engineering', 69000),
+-- ('engineering', 70000),
+-- ('engineering', 103000),
+-- ('engineering', 67000),
+-- ('engineering', 89000),
+-- ('engineering', 91000),
+-- ('sales', 59000),
+-- ('sales', 70000),
+-- ('sales', 159000),
+-- ('sales', 72000),
+-- ('sales', 60000),
+-- ('sales', 61000),
+-- ('sales', 61000),
+-- ('customer service', 38000),
+-- ('customer service', 45000),
+-- ('customer service', 61000),
+-- ('customer service', 40000),
+-- ('customer service', 31000),
+-- ('customer service', 56000),
+-- ('customer service', 55000);
+-- SELECT * FROM employees
+-- SELECT department, AVG(salary) FROM employees GROUP BY department
+-- SELECT AVG(salary) OVER() FROM employees 
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+--     MIN(salary) OVER(), 
+--     MAX(salary) OVER() 
+-- FROM employees 
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+--     ROUND(AVG(salary) OVER(PARTITION BY department), 2) AS dept_avg,
+-- 	AVG(salary) OVER() AS company_avg	
+-- FROM employees 
+-- SELECT emp_no, department, salary, COUNT(*) OVER(PARTITION BY department) AS dept_count
+-- FROM employees
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+--     SUM(salary) OVER(PARTITION BY department) AS dept_payroll,
+-- 	SUM(salary) OVER() AS total_payroll
+-- FROM employees
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+--     SUM(salary) OVER(PARTITION BY department ORDER BY salary DESC) AS rolling_dept_payroll,
+--     SUM(salary) OVER(PARTITION BY department) AS dept_payroll
+-- FROM employees
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+--     MIN(salary) OVER(PARTITION BY department ORDER BY salary) AS rolling_min
+-- FROM employees
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+--     RANK() OVER(ORDER BY salary DESC) AS overall_rank
+-- FROM employees
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+--     RANK() OVER(PARTITION BY department ORDER BY salary DESC) AS department_rank,
+--     RANK() OVER(ORDER BY salary DESC) AS overall_rank
+-- FROM employees
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+--     RANK() OVER(PARTITION BY department ORDER BY salary DESC) AS department_rank,
+--     RANK() OVER(ORDER BY salary DESC) AS overall_rank
+-- FROM employees ORDER BY department
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+--     ROW_NUMBER() OVER(PARTITION BY department ORDER BY salary DESC) AS department_row,
+--     RANK() OVER(PARTITION BY department ORDER BY salary DESC) AS department_rank,
+--     RANK() OVER(ORDER BY salary DESC) AS overall_rank
+-- FROM employees ORDER BY department
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+--     ROW_NUMBER() OVER(PARTITION BY department ORDER BY salary DESC) AS department_row,
+--     RANK() OVER(PARTITION BY department ORDER BY salary DESC) AS department_rank,
+--     RANK() OVER(ORDER BY salary DESC) AS overall_rank,
+--     DENSE_RANK() OVER(ORDER BY salary DESC) AS overall_dense_rank,
+--     ROW_NUMBER() OVER(ORDER BY salary DESC) AS overall_dense_row
+-- FROM employees ORDER BY overall_rank
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+--     NTILE(4) OVER(PARTITION BY department ORDER BY salary DESC) AS dept_salary_quartile,
+--     NTILE(3) OVER(ORDER BY salary DESC) AS salary_quartile
+-- FROM employees
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+-- 	FIRST_VALUE(emp_no) OVER(ORDER BY salary DESC)
+-- FROM employees
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+--     FIRST_VALUE(emp_no) OVER(PARTITION BY department ORDER BY salary DESC) AS highest_dept_id,
+-- 	FIRST_VALUE(emp_no) OVER(ORDER BY salary DESC) AS highest_id
+-- FROM employees
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+-- 	LAG(salary) OVER(ORDER BY salary DESC),
+--     salary - LAG(salary) OVER(ORDER BY salary DESC) AS sal_diff
+-- FROM employees
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+-- 	LEAD(salary) OVER(ORDER BY salary DESC),
+--     salary - LEAD(salary) OVER(ORDER BY salary DESC)
+-- FROM employees
+-- SELECT 
+-- 	emp_no, 
+--     department, 
+--     salary, 
+--     salary - LAG(salary) OVER(PARTITION BY department ORDER BY salary DESC) AS dept_salary_dif
+-- FROM employees
+
+
+
+
+
+
+
+
+
+
