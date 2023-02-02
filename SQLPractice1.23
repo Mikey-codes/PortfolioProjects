@@ -1,0 +1,97 @@
+-- SELECT * FROM Employees
+-- SELECT * FROM Departments
+-- SELECT * FROM salaries WHERE emp_no = 10001
+-- SELECT * FROM titles
+-- Rename Columns
+-- SELECT 
+--     emp_no AS Employee, 
+--     birth_date AS Birthday, 
+--     first_name AS Name
+--     FROM Employees
+-- Concatenation
+-- SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM Employees
+-- SELECT CONCAT(emp_no, ' is a ', title) AS Employee_title FROM titles
+-- SELECT COUNT(DISTINCT(emp_no)) FROM Employees
+-- SELECT * FROM Salaries ORDER BY salary DESC LIMIT 1
+-- SELECT MAX(salary) FROM Salaries
+-- SELECT SUM(salary) FROM Salaries
+-- Practice
+-- SELECT AVG(salary) FROM Salaries - 63810.74
+-- SELECT MIN(birth_date) FROM employees 1952-02-01
+
+-- SELECT COUNT(*) FROM towns - 36684
+
+-- SELECT COUNT(*) FROM countrylanguage - 984
+-- SELECT count(countrycode) FROM countrylanguage
+-- WHERE isofficial = true
+-- SELECT AVG(lifeexpectancy) FROM country - 66.48
+-- SELECT AVG(population) FROM city WHERE countrycode = 'NLD' - 185001.75
+-- Filter Mayumi Schueller
+-- SELECT CONCAT(first_name, ' ', last_name) AS full_name 
+-- FROM Employees
+-- Selecting Mayumi Schueller using condition
+-- WHERE first_name = 'Mayumi' AND last_name = 'Schueller'
+-- SELECT first_name FROM employees WHERE gender = 'F'
+-- SELECT first_name, last_name, hire_date
+-- FROM Employees
+-- WHERE first_name = 'Georgi' 
+-- AND last_name = 'Facello' 
+-- AND hire_date = '1986-06-26' 
+-- OR first_name = 'Bezalel' 
+-- AND last_name = 'Simmel'
+
+-- Practice from  Store DB
+-- SELECT firstname, lastname, gender, state FROM customers
+-- WHERE (state = 'OR' OR state = 'NY') AND gender = 'F'
+-- SELECT COUNT(*) FROM customers WHERE NOT age = 55
+-- SELECT COUNT(*) FROM customers WHERE age != 55 OR age !=20
+-- SELECT COUNT(*) FROM customers WHERE gender = 'F' AND state = 'OR'
+-- SELECT COUNT(*) FROM customers WHERE age > 44 AND income >= 100000
+-- SELECT COUNT(*) FROM customers WHERE age >= 30 AND age <= 50 AND income < 50000
+-- SELECT AVG(income) FROM customers WHERE age > 20 AND age < 50
+-- SELECT * FROM customers
+-- WHERE (age <30 or age >30)
+-- AND income > 50000
+-- AND  country = 'Japan' OR country ='Australia'
+-- SELECT * FROM orders
+-- WHERE (orderdate >= '2004-06-01' 
+-- AND orderdate = '2004-07-01')
+-- AND totalamount > 100
+-- Practice answers
+-- SELECT COALESCE(address2, 'No Address')
+-- FROM customers
+-- SELECT *
+-- FROM customers
+-- WHERE address2 IS NOT null;
+-- SELECT coalesce(lastName, 'Empty'), * from customers
+-- where (age IS NULL);
+-- SELECT * FROM customers
+-- WHERE income < 50000 AND age BETWEEN 30 AND 50
+-- SELECT AVG(income) FROM customers
+-- WHERE age BETWEEN 20 AND 50
+-- SELECT * FROM employees 
+-- WHERE emp_no IN (100001, 100006, 11008)
+-- SELECT COUNT(orderid) FROM orders
+-- WHERE customer IN (7888, 1082, 12808, 9623)
+-- SELECT COUNT(id) FROM city
+-- WHERE district IN ('Zuid-Holland', 'Noord-Brabant', 'Utrecht')
+-- SELECT * FROM employees
+-- WHERE first_name LIKE 'G%'
+-- SELECT * FROM employees
+-- WHERE first_name LIKE 'G%r'
+-- SELECT * FROM employees
+-- WHERE first_name ILIKE 'g%'
+-- SELECT emp_no, first_name, EXTRACT (YEAR FROM AGE(birth_date)) as "age" FROM employees
+-- WHERE first_name ILIKE 'M%';
+-- SELECT COUNT(*) FROM employees
+-- WHERE first_name LIKE 'A%R'
+-- SELECT COUNT(*) FROM customers
+-- WHERE zip::text LIKE '%2%'
+-- SELECT COUNT(*) FROM customers
+-- WHERE zip::text LIKE '2_1%'
+-- SELECT coalesce(state, 'No State') as "State" FROM customers
+-- WHERE phone::text LIKE '302%'
+
+
+
+
