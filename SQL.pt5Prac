@@ -1,0 +1,128 @@
+SELECT NOW()
+CREATE TABLE timezones (
+    ts TIMESTAMP WITHOUT TIME ZONE,
+    tz TIMESTAMP WITH TIME ZONE
+)
+INSERT INTO timezones VALUES (
+     TIMESTAMP WITHOUT TIME ZONE '2000-01-01 10:00:00-05',
+     TIMESTAMP WITH TIME ZONE '2000-01-01 10:00:00-05'
+)
+SELECT * FROM timezones
+SELECT AGE(date '1942-10-10')
+SELECT EXTRACT (DAY FROM date '1990-11-25') AS DAY/month/year
+SELECT * FROM orders
+WHERE orderdate <= now() - interval '19 years'
+Practice from employees table
+SELECT AGE(birth_date),* FROM employees
+WHERE (
+    EXTRACT (YEAR FROM AGE(birth_date))
+) > 60
+SELECT COUNT(emp_no) FROM employees
+WHERE EXTRACT (MONTH FROM hire_date) = 2
+SELECT COUNT(emp_no) FROM employees
+WHERE EXTRACT (MONTH FROM hire_date) = 11
+SELECT MAX(AGE(birth_date)) FROM employees
+SELECT COUNT(orderid)
+FROM orders
+WHERE DATE_TRUNC('month', orderdate) = date '2004-01-01'
+SELECT DISTINCT salary FROM salaries ORDER BY salary DESC
+SELECT DISTINCT title FROM titles
+SELECT DISTINCT birth_date FROM employees
+SELECT DISTINCT lifeexpectancy FROM country 
+WHERE lifeexpectancy IS NOT NULL 
+ORDER BY lifeexpectancy
+SELECT * FROM employees
+ORDER BY first_name ASC, last_name DESC
+SELECT * FROM employees
+ORDER BY birth_date
+SELECT first_name, hiredate FROM employees
+WHERE first_name LIKE 'K%'
+ORDER BY hire_date
+SELECT a.emp_no,
+       CONCAT(a.first_name, ' ', a.last_name) AS "name",
+       b.salary
+FROM employees AS a, salaries AS b
+WHERE a.emp_no = b.emp_no
+INNER JOIN
+SELECT a.emp_no,
+       CONCAT(a.first_name, ' ', a.last_name) AS "name",
+       b.salary
+FROM employees AS a 
+INNER JOIN salaries AS b ON b.emp_no = a.emp_no
+ORDER BY emp_no
+
+SELECT a.emp_no,
+       CONCAT(a.first_name, ' ', a.last_name) AS "name", 
+       b.salary,
+       c.title,
+       c.from_date AS "Promoted on"
+FROM employees AS a
+INNER JOIN salaries AS b ON a.emp_no = b.emp_no
+INNER JOIN titles AS c ON c.emp_no = a.emp_no
+AND c.from_date = (b.from_date + interval '2 days')
+ORDER BY a.emp_no ASC, b.from_date ASC
+
+SELECT a.emp_no,
+       CONCAT(a.first_name, ' ', a.last_name) AS "name", 
+       b.salary,
+       c.title,
+       c.from_date AS "Promoted on"
+FROM employees AS a
+INNER JOIN salaries AS b ON a.emp_no = b.emp_no
+INNER JOIN titles AS c 
+    ON c.emp_no = a.emp_no
+    AND ( c.from_date = (b.from_date + interval '2 days') OR c.from_date = b.from_date )
+ORDER BY a.emp_no ASC, b.from_date ASC
+SELF JOIN
+SELECT a.id, a.name AS "employee", b.name as "supervisor name"
+FROM employee AS a
+INNER JOIN employee as b
+ON a.supervisorID =b.id
+OUTER JOIN
+SELECT COUNT(emp.emp_no)
+FROM employees AS emp
+LEFT JOIN dept_manager AS dep ON emp.emp_no = dep.emp_no
+WHERE dep.emp_no IS NULL; -- # of employees
+SELECT emp.emp_no, emp.first_name, emp.last_name
+FROM employees AS emp
+LEFT JOIN dept_manager AS dep ON emp.emp_no = dep.emp_no
+WHERE dep.emp_no IS NOT NULL; -- Managers
+SELECT a.emp_no,
+       CONCAT(a.first_name, ' ', a.last_name) AS "name", 
+       b.salary,
+       COALESCE(c.title, 'No title Change'),
+       COALESCE(c.from_date::text, '-') AS "title taken on"
+FROM employees AS a
+INNER JOIN salaries AS b ON a.emp_no = b.emp_no
+LEFT JOIN titles AS c 
+    ON c.emp_no = a.emp_no
+    AND (
+        c.from_date = (b.from_date + interval '2 days')
+        OR c.from_date = b.from_date
+        )
+ORDER BY a.emp_no ASC
+-- Practice
+SELECT c.firstname, c.lastname, o.orderid
+FROM orders AS o
+INNER JOIN customers AS c ON c.customerid = c.customerid 
+WHERE c.state IN ('OH', 'NY', 'OR')
+ORDER BY o.orderid;
+SELECT a.title, b.quan_in_stock
+FROM products AS a
+INNER JOIN inventory AS b ON a.prod_id = b.prod_id
+SELECT a.first_name, b.dept_name 
+FROM employees AS a
+INNER JOIN dept_emp AS d ON d.emp_no = a.emp_no
+INNER JOIN departments AS b ON b.dept_no = d.dept_no
+
+
+
+
+
+
+
+
+
+
+
+
